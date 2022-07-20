@@ -40,6 +40,7 @@ model TeacherDisciplines {
   disciplines   Disciplines @relation(fields: [disciplineId], references: [id])
   disciplineId  Int
   tests         Tests[]
+   @@map("teachersDisciplines")
 }
 
 model Terms {
@@ -65,10 +66,4 @@ model Tests {
   teacherDisciplines      TeacherDisciplines @relation(fields: [teacherDisciplineId], references: [id])
   teacherDisciplineId     Int
   @@map("tests")
-}
-
-model Usuario {
-  id Int @id @default(autoincrement())
-  name String
-  test String @unique 
 }

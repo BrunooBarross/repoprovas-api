@@ -60,15 +60,6 @@ CREATE TABLE "tests" (
     CONSTRAINT "tests_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "Usuario" (
-    "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "test" TEXT NOT NULL,
-
-    CONSTRAINT "Usuario_pkey" PRIMARY KEY ("id")
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
@@ -83,9 +74,6 @@ CREATE UNIQUE INDEX "terms_number_key" ON "terms"("number");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Usuario_test_key" ON "Usuario"("test");
 
 -- AddForeignKey
 ALTER TABLE "disciplines" ADD CONSTRAINT "disciplines_termId_fkey" FOREIGN KEY ("termId") REFERENCES "terms"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
