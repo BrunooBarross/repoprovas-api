@@ -9,3 +9,66 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Users {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  @@map("users")
+}
+
+model Teachers {
+  id                 Int                 @id @default(autoincrement())
+  name               String              @unique
+  teacherDisciplines TeacherDisciplines[]
+  @@map("teachers")
+}
+
+model Disciplines {
+  id                  Int                 @id @default(autoincrement())
+  name                String              @unique
+  terms               Terms               @relation(fields: [termId], references: [id])
+  termId              Int
+  teacherDisciplines  TeacherDisciplines[]
+  @@map("disciplines")
+}
+
+model TeacherDisciplines {
+  id            Int        @id @default(autoincrement())
+  teachers      Teachers    @relation(fields: [teacherId], references: [id])
+  teacherId     Int
+  disciplines   Disciplines @relation(fields: [disciplineId], references: [id])
+  disciplineId  Int
+  tests         Tests[]
+}
+
+model Terms {
+  id          Int          @id @default(autoincrement())
+  number      Int          @unique
+  disciplines Disciplines[]
+  @@map("terms")
+}
+
+model Categories {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  tests Tests[]
+  @@map("categories")
+}
+
+model Tests {
+  id                      Int               @id @default(autoincrement())
+  name                    String
+  pdfUrl                  String
+  categories              Categories         @relation(fields: [categoryId], references: [id])
+  categoryId              Int
+  teacherDisciplines      TeacherDisciplines @relation(fields: [teacherDisciplineId], references: [id])
+  teacherDisciplineId     Int
+  @@map("tests")
+}
+
+model Usuario {
+  id Int @id @default(autoincrement())
+  name String
+  test String @unique 
+}
