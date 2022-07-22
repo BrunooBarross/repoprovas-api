@@ -20,3 +20,13 @@ export async function findByEmail(email: string) {
     
     return result;
 }
+
+export async function findById(id: number){
+    const result = await prisma.users.findFirst({
+        where:{
+            id
+        }
+    })
+
+    return result;
+}
