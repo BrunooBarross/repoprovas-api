@@ -26,10 +26,6 @@ async function verifyExistsCategory(categoryName: string){
     if(category){
         return category.id;
     }
-    await createCategory(categoryName);
-}
-
-async function createCategory(categoryName: string){
-    await categoryRepository.createCategory(categoryName);
-    await verifyExistsCategory(categoryName);
+    const insertCategory = await categoryRepository.createCategory(categoryName);
+    return insertCategory.id;
 }

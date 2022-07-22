@@ -19,9 +19,10 @@ export async function findCategoryByName(name: string){
 }
 
 export async function createCategory(name: string){
-    await prisma.categories.create({
+    const result = await prisma.categories.create({
         data:{
             name
         }
     });
+    return result;
 }
