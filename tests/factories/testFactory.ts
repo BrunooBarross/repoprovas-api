@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import prisma from "../../src/db.js"
 
 export async function testBody() {
     return {
@@ -8,4 +8,16 @@ export async function testBody() {
         disciplineId: 1,
         teacherId: 1
     }
+}
+
+export async function selectTest(data: any){
+    const result = await prisma.tests.findFirst({
+        where:{
+            name: data.name,
+            pdfUrl: data.pdfUrl,
+            categoryId: data.categoryId,
+            teacherDisciplineId: data.teacherDisciplineId
+        }
+    });
+    return result;
 }

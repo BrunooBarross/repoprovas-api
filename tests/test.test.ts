@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import app from "../src/app.js";
 import prisma from "../src/db.js"
-import { testBody } from "./factories/testFactory.js"
+import { selectTest, testBody } from "./factories/testFactory.js"
 import { userBody, insertUser } from "./factories/userFactory.js"
 
 beforeEach(async () => {
@@ -24,7 +24,7 @@ describe("POST /test", () => {
     await insertUser(bodyUser);
     const resultUser = await supertest(app).post("/sign-in").send(bodyUser);
     const statusUser = resultUser.status;
-
+    console.log(resultUser.body.token);
     const body = { "teste": "teste" };
     const result = await supertest(app).post("/test").set('Authorization', resultUser.body.token).send(body);
     const status = result.status;
@@ -50,10 +50,12 @@ describe("POST /test", () => {
     const bodyUser = userBody();
     await insertUser(bodyUser);
     const resultUser = await supertest(app).post("/sign-in").send(bodyUser);
-
+    
     const body = await testBody();
     const result = await supertest(app).post("/test").set('Authorization', resultUser.body.token).send(body);
+    const findTest = await selectTest(body);
     const status = result.status;
     expect(status).toEqual(201);
+    expect(findTest).not.toBeNull();
   });
 });
