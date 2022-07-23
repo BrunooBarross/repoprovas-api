@@ -10,11 +10,11 @@ export function userBody(): UserInsertData {
   };
 }
 
-export async function insertUser(data: UserInsertData){
+export async function insertUser(data: UserInsertData) {
   await prisma.users.create({
-    data:{
-        email: data.email,
-        password: bcrypt.hashSync(data.password, 10)
+    data: {
+      email: data.email,
+      password: bcrypt.hashSync(data.password, 10)
     }
   })
 }

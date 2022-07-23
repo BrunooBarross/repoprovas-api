@@ -5,7 +5,7 @@ export type TestData = Omit<Tests, "id">
 export type TestInsertData = Omit<Tests, "id"> & { categoryName: string, disciplineId: number, teacherId: number }
 
 export async function getTeacherDiscipline(teacherId: number, disciplineId: number) {
-    const result = await prisma.teacherDisciplines.findFirst({
+    const result = await prisma.teachersDisciplines.findFirst({
         where: {
             teacherId,
             disciplineId
