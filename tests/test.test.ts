@@ -24,7 +24,7 @@ describe("POST /test", () => {
     await insertUser(bodyUser);
     const resultUser = await supertest(app).post("/sign-in").send(bodyUser);
     const statusUser = resultUser.status;
-    console.log(resultUser.body.token);
+    //console.log(resultUser.body.token);
     const body = { "teste": "teste" };
     const result = await supertest(app).post("/test").set('Authorization', resultUser.body.token).send(body);
     const status = result.status;
