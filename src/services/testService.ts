@@ -16,7 +16,7 @@ export async function createTests(data: TestInsertData) {
 async function verifyExistsTeachersDisciplines(teacherId: number, disciplineId: number) {
     const consult = await testRepository.getTeacherDiscipline(teacherId, disciplineId);
     if (!consult) {
-        throw { type: "unauthorized", message: `there is no teacher and subject linked to the provided ids` }
+        throw { type: "unauthorized", message: `there is no teacher and subject linked to the provided ids` };
     }
     return consult.id
 }
@@ -28,4 +28,14 @@ async function verifyExistsCategory(categoryName: string) {
     }
     const insertCategory = await categoryRepository.createCategory(categoryName);
     return insertCategory.id;
+}
+
+export async function getTestsByQueryParams(queryParams: string) {
+    if (queryParams === 'disciplines') {
+        const tests = await testRepository.getAllTestsByDiscipline();
+        return tests;
+    }
+
+    throw { type: "unprocessable_entity", message: `it is necessary to send a query parameter with the value groupBy=disciplines or groupBy=teachers` };
+
 }

@@ -21,3 +21,33 @@ export async function insertTestBd(data: TestData) {
         }
     });
 }
+
+export async function getAllTestsByDiscipline(){
+    const result = await prisma.terms.findMany({
+        include: {
+            disciplines: {
+                include: {
+                    teacherDisciplines: {
+                        select: {
+                            teachers: true,
+                            tests: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    pdfUrl: true,
+                                    categories: {
+                                        select: {
+                                            id: true,
+                                            name: true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+    return result;
+}
