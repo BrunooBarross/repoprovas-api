@@ -36,6 +36,10 @@ export async function getTestsByQueryParams(queryParams: string) {
         return tests;
     }
 
-    throw { type: "unprocessable_entity", message: `it is necessary to send a query parameter with the value groupBy=disciplines or groupBy=teachers` };
+    if (queryParams === 'teachers') {
+        const tests = await testRepository.getAllTestsByTeachers();
+        return tests;
+    }
 
+    throw { type: "unprocessable_entity", message: `it is necessary to send a query parameter with the value groupBy=disciplines or groupBy=teachers` };
 }
