@@ -25,7 +25,7 @@ export async function insertTestBd(data: TestData) {
 export async function getAllTestsByDiscipline(){
     const result = await prisma.terms.findMany({
         include: {
-            discipline: {
+            disciplines: {
                 include: {
                     teacherDisciplines: {
                         select: {

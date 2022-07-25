@@ -46,7 +46,7 @@ model TeachersDisciplines {
 model Terms {
   id          Int          @id @default(autoincrement())
   number      Int          @unique
-  discipline Disciplines[]
+  disciplines Disciplines[]
   @@map("terms")
 }
 

@@ -24,7 +24,7 @@ describe("POST /test", () => {
     await insertUser(bodyUser);
     const resultUser = await supertest(app).post("/sign-in").send(bodyUser);
     const statusUser = resultUser.status;
-    //console.log(resultUser.body.token);
+    console.log(resultUser.body.token);
     const body = { "teste": "teste" };
     const result = await supertest(app).post("/test").set('Authorization', resultUser.body.token).send(body);
     const status = result.status;
@@ -59,3 +59,40 @@ describe("POST /test", () => {
     expect(findTest).not.toBeNull();
   });
 });
+
+describe("GET /test", () => {
+  it("Returns 200 if you search for tests by subjects", async () => {
+    const bodyUser = userBody();
+    await insertUser(bodyUser);
+    const resultUser = await supertest(app).post("/sign-in").send(bodyUser);
+    
+    const body = await testBody();
+    const result = await supertest(app).get("/tests?groupBy=disciplines").set('Authorization', resultUser.body.token).send(body);
+    const status = result.status;
+    expect(status).toEqual(200);
+    expect(result.body.tests.length).toBeGreaterThan(0);
+  });
+
+  it("Returns 200 if you search for tests by teachers", async () => {
+    const bodyUser = userBody();
+    await insertUser(bodyUser);
+    const resultUser = await supertest(app).post("/sign-in").send(bodyUser);
+    
+    const body = await testBody();
+    const result = await supertest(app).get("/tests?groupBy=teachers").set('Authorization', resultUser.body.token).send(body);
+    const status = result.status;
+    expect(status).toEqual(200);
+    expect(result.body.tests.length).toBeGreaterThan(0);
+  });
+
+  it("Returns 422 when group by is incorrec", async () => {
+    const bodyUser = userBody();
+    await insertUser(bodyUser);
+    const resultUser = await supertest(app).post("/sign-in").send(bodyUser);
+    
+    const body = await testBody();
+    const result = await supertest(app).get("/tests?groupBy=fghfgh").set('Authorization', resultUser.body.token).send(body);
+    const status = result.status;
+    expect(status).toEqual(422);
+  });
+})
