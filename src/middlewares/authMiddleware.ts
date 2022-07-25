@@ -23,11 +23,11 @@ export async function validateToken(req: Request, res: Response, next: NextFunct
     const secretKey = process.env.JWT_SECRET;
     const user: any = jwt.verify(token, secretKey);
     
-    /* const findUser = await userRepository.findById(user.userId);
+    const findUser = await userRepository.findById(user.userId);
     
     if (!findUser) {
         throw { type: "unauthorized", message: "there is no user registered with this token"}
-    } */
+    }
     res.locals.userId = user.userId;
     next();
 }

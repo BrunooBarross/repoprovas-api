@@ -7,7 +7,7 @@ describe("GET /categories", () => {
         const bodyUser = userBody();
         await insertUser(bodyUser);
         const resultUser = await supertest(app).post("/sign-in").send(bodyUser);
-        
+       
         const result = await supertest(app).get("/categories").set('Authorization', resultUser.body.token).send();
         const status = result.status;
         expect(status).toEqual(200);
